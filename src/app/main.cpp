@@ -187,7 +187,27 @@ int main(int, char**)
         {
             check_keybinds(sw_stats, params, vendorID);
             position_layer(sw_stats, params, window_size);
-            render_imgui(sw_stats, params, window_size, true);
+            //render_imgui(sw_stats, params, window_size, true);
+
+            const float colors[][3] = {
+                { 0.094 * 128, 0.918 * 128, 0.133 * 128 },
+                { 0.918 * 128, 0.910 * 128, 0.094 * 128 },
+                { 0.094 * 128, 0.918 * 128, 0.784 * 128 },
+                { 0.933 * 128, 0.275 * 128, 0.651 * 128 },
+            };
+
+            static bool poop = false;
+            ImGui::SetNextWindowPos(ImVec2(0, 0), ImGuiCond_Always);
+            ImGui::PushStyleVar(ImGuiStyleVar_WindowBorderSize, 0.0f);
+            ImGui::SetNextWindowSize(ImVec2(1280, 720), ImGuiCond_Always); 
+            ImGui::Begin("Poop", &poop, ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_NoBackground);
+            ImDrawList* draw_list = ImGui::GetWindowDrawList(); 
+            for (int j = 0; j < 32; j++) {
+                int i = j % 4;
+                draw_list->AddRectFilled(ImVec2(0, 50 * j), ImVec2(1280, 50 * j + 25), IM_COL32(colors[i][0], colors[i][1], colors[i][2], 128), 0.0f, ImDrawCornerFlags_None);
+            }
+            ImGui::PopStyleVar();
+            ImGui::End();
         }
         ImGui::PopStyleVar(3);
 
